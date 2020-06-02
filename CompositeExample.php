@@ -81,6 +81,7 @@ $army2->addUnit(new Firehawk());
 $army2->addUnit(new Firehawk());
 $army2->addUnit(new Firehawk());
 $army2->addUnit(new Firehawk());
+$army2->addUnit(new Firehawk());
 
 echo $army1->getPower() . "<br>";
 echo $army2->getPower() . "<br>";
