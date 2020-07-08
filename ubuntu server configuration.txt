@@ -1,0 +1,40 @@
+sudo apt install apache2-bin
+sudo chmod 777 /var/www/html
+cd /etc/apache2/sites-available
+sudo cp 000-default.conf ./hw.local.conf     ("hw" это в моем случае)
+sudo nano hw.local.conf
+
+	в этом участке кода нужно сделать так:
+
+			# value is not decisive as it is used as a last resort host regardless.
+			# However, you must set it for any further virtual host explicitly.
+	       -->      ServerName hw.local
+	       -->      ServerAlias www.hw.local
+
+	       -->      ServerAdmin webmaster@localhost
+	       -->      DocumentRoot /var/www/html/hw
+
+	       -->      <Directory "/var/www/hw">
+	       -->      AllowOverride All
+	       -->      </Directory>
+
+
+			# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+			# error, crit, alert, emerg.
+
+
+sudo service apache2 restart
+sudo a2ensite hw.local.conf
+
+sudo nano /etc/hosts
+
+	добавляем 3 строку:
+		127.0.0.1       localhost
+		127.0.1.1       odmenPC
+	  ----> 127.0.0.1       hw.local www.hw.local
+
+sudo a2enmod rewrite
+
+готово!
+
+
