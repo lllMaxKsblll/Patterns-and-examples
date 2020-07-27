@@ -1,0 +1,47 @@
+docker run -d -p 80:80 docker/имя-образа
+флаги можно писать сокращенно: -dp
+-d - запустить контейнер в автономном режиме (в фоновом режиме)
+-p 80:80 - сопоставить порт 80 хоста с портом 80 в контейнере
+-e  - установка переменных окружения (environment)
+
+
+docker ps
+docker stop <the-container-id>
+docker rm <the-container-id>
+
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD==my-secret-pw -d mysql:tag - создание отдельного контейнера с БД MYSQL
+docker run --name some-mariadb -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mariadb:tag  - mariadb
+some-mysql  - имя контейнера
+my-secret-pw - установить пароль
+tag - версия. Если стереть вместе с ":" (например не mariadb:tag а mariadb), то будет установлена последняя версия.
+
+
+docker exec -it arphotographer bash        - запуск cli bash (этого контейнера (MYSQL)) внутри этого cli
+
+
+docker run --link some_database:db -p 8080:8080 adminer
+--link - установка соединения между создаваемым контейнером (adminer) и существующим ( базой данных some_database)
+some_database - имя контейнера БД
+
+version: '3.1'                           - версия  которой будут определятся доступные возможности и ограничения
+
+services:
+
+  db:                                    - имя контейнера (не те что используются при запуске контейнера --name), как я понял, служит для связи в сети докера
+    build:./dir                          - указываем директорию откуда будем брать инструкцию (dockerfile) для этого образа. !!!НУЖНО ИСПОЛЬЗОВАТЬ ТОЛЬКО ИЛИ "build" если есть докерфайл ИЛИ "image" (строка ниже)!!!
+       или
+    image: mariadb                       - имя образа из dockerhub
+
+    container_name: db                   - то же самое что флаг --name, задает имя контейнера (вместо дефолтного которое создает докер (имя ученого или хакера))
+    restart: always                      - задаем параметр рестарта контейнера при отказе работы или ошибке(no - никогда; unless-stopped - пока не остановится; on-failure - при критическом сбое; always - всегда)
+    environment:                         - то же что и флаг "-e", среда в которой содержатся переменные внутри контейнера (например переменную "MYSQL_ROOT_PASSWORD" со значением "123456" который будет задан по дефолту для root)
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:                             - указываем директории (тома) (на хосте (здесь папка "database(docker)" лежит в корне каталога приложения) : в контейнере(дефольный путь))
+    - ./database(docker):/var/lib/mysql           в них будет хранится актуальная информация в этом случае БД, и при пересоздании контейнера можно востановить всю информацию.
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080                      
+
