@@ -2,7 +2,7 @@
 abstract class Repairer
 {
 
-    abstract function getWorker() : MastersSkills;
+    abstract function getWorker() : Masters;
 
     public function fix()
     {
@@ -13,14 +13,14 @@ abstract class Repairer
 
 class ElectricianFactory extends Repairer
 {
-    public function getWorker() : MastersSkills
+    public function getWorker() : Masters
     {
         return new Electrician();
     }
 }
 class MechanicFactory extends Repairer
 {
-    public function getWorker() : MastersSkills
+    public function getWorker() : Masters
     {
         return new Mechanic();
     }
@@ -29,12 +29,12 @@ class MechanicFactory extends Repairer
 
 
 
-interface MastersSkills
+interface Masters
 {
     public function repair();
 }
 
-class Electrician implements MastersSkills
+class Electrician implements Masters
 {
     public function repair()
     {
@@ -42,7 +42,7 @@ class Electrician implements MastersSkills
     }
 }
 
-class Mechanic implements MastersSkills
+class Mechanic implements Masters
 {
     public function repair()
     {
@@ -50,4 +50,5 @@ class Mechanic implements MastersSkills
     }
 }
 
-
+$w1 = new ElectricianFactory();
+$w1->fix();

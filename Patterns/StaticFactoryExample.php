@@ -1,7 +1,7 @@
 <?php
 class MessengerStaticFactory
 {
-    public static function build(string $type, string $recipient)
+    public static function build(string $type, string $recipient) : Messenger
     {
         switch ($type) {
             case "email":

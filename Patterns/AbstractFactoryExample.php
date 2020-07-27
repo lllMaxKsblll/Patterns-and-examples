@@ -164,13 +164,16 @@ class UnitFactory
     public function getFactory() : ArmyFactory
     {
         switch ($this->type){
-            case 'GDI': return new GDIArmyFactory();
+            case 'GDI':
+                return new GDIArmyFactory();
             break;
 
-            case 'NOD': return new NODArmyFactory();
+            case 'NOD':
+                return new NODArmyFactory();
             break;
 
-            case 'Scrin': return new ScrinArmyFactory();
+            case 'Scrin':
+                return new ScrinArmyFactory();
             break;
             default : throw new Exception("Wrong unit type \"$this->type\"");
         }
